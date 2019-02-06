@@ -70,6 +70,7 @@ void main()
 			break;
 
 		case 3:	//del individual - ?how
+			//requires second file, read in number of newLines (-1), sk user for line to be deleted, save to new file and re-name to first file
 			menuSelection = -1;
 			break;
 		case 4:  //del all
