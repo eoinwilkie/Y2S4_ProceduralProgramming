@@ -4,43 +4,59 @@
 #define NO_STATES 5
 #define NO_CANDIDATES 4
 
-void getVoteResults(int votes[][NO_STATES]);
-void displayVoteResults(int votes[][NO_STATES]);
-void displayStateWinners(int votes[][NO_STATES], int stateWinners[NO_STATES]);
-int getStateWinner(int votes[][NO_STATES], int state);
-void displayNewMayor(int stateReults[NO_STATES]);
+void getVoteResults(int **votes);
+void displayVoteResults(int **votes);
+void displayStateWinners(int **votes, int *stateWinners);
+int getStateWinner(int *votes);
+void displayNewMayor(int *stateReults);
 char displayCandidate(int candidateNo);
 
 void main()
 {
-	int votes[NO_CANDIDATES][NO_STATES];
-	int stateResults[NO_STATES];		//contains id of winner per state
-	for (int state = 0; state < NO_STATES; state++)
+	int **votes = (int**)malloc(NO_STATES * sizeof(int *));
+	int *stateResults = (int*)malloc(NO_STATES * sizeof(int));
+
+	//assign stateResults to 0 - check if necessary
+	for (int i = 0; i < NO_STATES; i++)
 	{
-		stateResults[state] = 0;
+		//?unsure what this is doing but seems necessary - may be because I am using [][] to assign
+		//seems to be allowing votes to be assigned with [][]
+		votes[i] = malloc(NO_CANDIDATES * sizeof(int));
+
+		//assign 0 value to stateResults
+		*(stateResults + i) = 0;
 	}
-	//int **votes;
-	//votes = (int**) malloc()
+	
+
 
 	getVoteResults(votes);
 	displayVoteResults(votes);
 	displayStateWinners(votes, stateResults);
 	displayNewMayor(stateResults);
+
 }//main()
 
 /*
 Prompts user to enter values for election table
 */
-void getVoteResults(int votes[][NO_STATES])
+void getVoteResults(int **votes)
 {
-	for (int state = 0; state < NO_STATES; state++)
+	int tempInt;
+	for (int i = 0; i < NO_STATES; i++)
 	{
-		printf("State %d votes...\n", state + 1);
-		for (int candidate = 0; candidate < NO_CANDIDATES; candidate++)
+		printf("State %d\n", i + 1);
+		for (int j = 0; j < NO_CANDIDATES; j++)
 		{
 			//enter candidate i
-			printf("Enter votes for candidate %d: ", candidate+1);
-			scanf("%d", &votes[candidate][state]);
+			//?assign to ** directly from scanf?
+			printf("Enter votes for candidate %d: ", j + 1);
+			//scanf("%d", &tempInt);
+			scanf("%d", &votes[i][j]);
+			//unsure why this is not using * or &
+			//?what is diff here? *& values are printed with votes[][]
+			//https://cs.brynmawr.edu/Courses/cs246/spring2014/Slides/16_2DArray_Pointers.pdf
+			//&votes[i][j] = tempInt;
+			//votes[i][j] = tempInt;
 		}
 	}
 }//getVoteResults()
@@ -48,15 +64,16 @@ void getVoteResults(int votes[][NO_STATES])
 /*
 Displays vote results as table
 */
-void displayVoteResults(int votes[][NO_STATES])
+void displayVoteResults(int **votes)
 {
 	printf("\n\t\t\tTable of the vote data\nState\tCandidate A\tCandidate B\tCandidate C\tCandidate D\n");
-	for (int state = 0; state < NO_STATES; state++)
+	for (int i = 0; i < NO_STATES; i++)
 	{
-		printf("State %d\t", state+1);
-		for (int candidate = 0; candidate < NO_CANDIDATES; candidate++)
+		printf("State %d\t", i+1);
+		for (int j = 0; j < NO_CANDIDATES; j++)
 		{
-			printf("%d\t\t", votes[candidate][state]);
+			//printf("%d\t\t", *&votes[i][j]);
+			printf("%d\t\t", votes[i][j]);
 		}
 		printf("\n");
 	}
@@ -65,13 +82,13 @@ void displayVoteResults(int votes[][NO_STATES])
 /*
 Displays winners for each state and prints to console.
 */
-void displayStateWinners(int votes[][NO_STATES], int stateWinners[NO_STATES])
+void displayStateWinners(int **votes, int *stateWinners)
 {
 	int stateWinner;
 	printf("Displaying state winners...\n");
 	for (int state = 0; state < NO_STATES; state++)
 	{
-		stateWinner = getStateWinner(votes, state);
+		stateWinner = getStateWinner(votes[state]);
 		stateWinners[stateWinner]++;
 		printf("State %d: Candidate %c\n", state+1, displayCandidate(stateWinner));
 	}
@@ -80,7 +97,7 @@ void displayStateWinners(int votes[][NO_STATES], int stateWinners[NO_STATES])
 /*
 Gets the state winner for each state
 */
-int getStateWinner(int votes[][NO_STATES], int state)
+int getStateWinner(int *votes)
 {
 	int stateWin;
 	char stateWinChar;
@@ -88,9 +105,9 @@ int getStateWinner(int votes[][NO_STATES], int state)
 
 	for (int candidate = 0; candidate < NO_CANDIDATES; candidate++)
 	{
-		if (votes[candidate][state] > stateHigh)
+		if (votes[candidate] > stateHigh)
 		{
-			stateHigh = votes[candidate][state];
+			stateHigh = votes[candidate];
 			stateWin = candidate;
 		}
 	}
@@ -101,12 +118,11 @@ int getStateWinner(int votes[][NO_STATES], int state)
 /*
 Reads scores per state and returns the winning candidate
 */
-void displayNewMayor(int stateResults[NO_STATES])
+void displayNewMayor(int *stateResults)
 {
 	int newMayor = -1;
 	int voteCountHigh = -1;
 
-	printf("Displaying state winners...\n");
 	for (int state = 0; state < NO_STATES; state++)
 	{
 		if (stateResults[state] > voteCountHigh)
@@ -115,7 +131,7 @@ void displayNewMayor(int stateResults[NO_STATES])
 			voteCountHigh = stateResults[state];
 		}
 	}
-	printf("Candidate %c has been elected mayor!\n", displayCandidate(newMayor));
+	printf("\nCandidate %c has been elected mayor!\n", displayCandidate(newMayor));
 }//displayNewMayor()
 
 /*
