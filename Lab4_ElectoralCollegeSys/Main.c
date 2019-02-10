@@ -34,6 +34,11 @@ void main()
 	displayStateWinners(votes, stateResults);
 	displayNewMayor(stateResults);
 
+	//free maloc
+	//should this be free ( votes or **votes )
+	free(votes);
+	free(stateResults);
+
 }//main()
 
 /*
