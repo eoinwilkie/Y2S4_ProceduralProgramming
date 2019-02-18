@@ -53,15 +53,10 @@ void getVoteResults(int **votes)
 		for (int j = 0; j < NO_CANDIDATES; j++)
 		{
 			//enter candidate i
-			//?assign to ** directly from scanf?
 			printf("Enter votes for candidate %d: ", j + 1);
-			//scanf("%d", &tempInt);
-			scanf("%d", &votes[i][j]);
-			//unsure why this is not using * or &
-			//?what is diff here? *& values are printed with votes[][]
+			//scanf("%d", &votes[i][j]);
+			scanf("%d", *(*(votes + i) + j));
 			//https://cs.brynmawr.edu/Courses/cs246/spring2014/Slides/16_2DArray_Pointers.pdf
-			//&votes[i][j] = tempInt;
-			//votes[i][j] = tempInt;
 		}
 	}
 }//getVoteResults()
@@ -78,7 +73,8 @@ void displayVoteResults(int **votes)
 		for (int j = 0; j < NO_CANDIDATES; j++)
 		{
 			//printf("%d\t\t", *&votes[i][j]);
-			printf("%d\t\t", votes[i][j]);
+			printf("%d\t\t", *(*(votes + i) + j));
+			scanf("%d", *(*(votes + i) + j));
 		}
 		printf("\n");
 	}
@@ -93,8 +89,9 @@ void displayStateWinners(int **votes, int *stateWinners)
 	printf("Displaying state winners...\n");
 	for (int state = 0; state < NO_STATES; state++)
 	{
-		stateWinner = getStateWinner(votes[state]);
-		stateWinners[stateWinner]++;
+		stateWinner = getStateWinner(*(votes + state));
+		//stateWinners[stateWinner]++;
+		*(stateWinners + stateWinner) += 1;
 		printf("State %d: Candidate %c\n", state+1, displayCandidate(stateWinner));
 	}
 }//displayStateWinners()
@@ -110,9 +107,10 @@ int getStateWinner(int *votes)
 
 	for (int candidate = 0; candidate < NO_CANDIDATES; candidate++)
 	{
-		if (votes[candidate] > stateHigh)
+		if (*(votes + candidate) > stateHigh)
 		{
-			stateHigh = votes[candidate];
+			//stateHigh = votes[candidate];
+			stateHigh = *(votes + candidate);
 			stateWin = candidate;
 		}
 	}
@@ -130,10 +128,10 @@ void displayNewMayor(int *stateResults)
 
 	for (int state = 0; state < NO_STATES; state++)
 	{
-		if (stateResults[state] > voteCountHigh)
+		if (*(stateResults + state) > voteCountHigh)
 		{
 			newMayor = state;
-			voteCountHigh = stateResults[state];
+			voteCountHigh = *(stateResults + state);
 		}
 	}
 	printf("\nCandidate %c has been elected mayor!\n", displayCandidate(newMayor));
