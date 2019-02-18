@@ -27,8 +27,6 @@ void main()
 		*(stateResults + i) = 0;
 	}
 	
-
-
 	getVoteResults(votes);
 	displayVoteResults(votes);
 	displayStateWinners(votes, stateResults);
@@ -57,6 +55,7 @@ void getVoteResults(int **votes)
 			printf("Enter votes for candidate %d: ", j + 1);
 			//scanf("%d", &tempInt);
 			scanf("%d", &votes[i][j]);
+			//scanf("%d", (*(*(votes + i)* j));
 			//unsure why this is not using * or &
 			//?what is diff here? *& values are printed with votes[][]
 			//https://cs.brynmawr.edu/Courses/cs246/spring2014/Slides/16_2DArray_Pointers.pdf
