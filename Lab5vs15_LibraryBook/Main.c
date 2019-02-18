@@ -64,9 +64,9 @@ void add_book(libraryBook_t *libraryBooks, int noOfBooks) {
 
 }//add_book()
 
- /*
- Search for book ISBN and displays book
- */
+/*
+Search for book ISBN and displays book 
+*/
 void display_book(libraryBook_t *libraryBooks, int noOfBooks, int searchISBN) {
 	int bookFound = 0;
 	for (int i = 0; i < noOfBooks; i++)
@@ -81,9 +81,9 @@ void display_book(libraryBook_t *libraryBooks, int noOfBooks, int searchISBN) {
 		printf("Book not Found.\n");
 }//display_book()
 
- /*
- Search for book ISBN and allows user to enter new price for book
- */
+/*
+Search for book ISBN and allows user to enter new price for book
+*/
 void edit_book(libraryBook_t *libraryBooks, int noOfBooks, int searchISBN) {
 	//?how to edit, only edit price? - req menu to edit all values
 	for (int i = 0; i < noOfBooks; i++)
@@ -98,12 +98,12 @@ void edit_book(libraryBook_t *libraryBooks, int noOfBooks, int searchISBN) {
 
 }//edit_book()
 
- /*
- Displays menu, -1 to exit.
- 1. Search book#, display its members details
- 2. Add new book to array, if available space
- 3. Edit book price
- */
+/*
+Displays menu, -1 to exit.
+1. Search book#, display its members details
+2. Add new book to array, if available space
+3. Edit book price
+*/
 void displayMenu(libraryBook_t *libraryBooks, int noOfBooks) {
 	//prompt userInput
 	int userInput = 0;

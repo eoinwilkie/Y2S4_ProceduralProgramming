@@ -29,7 +29,7 @@ void main()
 		//assign 0 value to stateResults
 		*(stateResults + i) = 0;
 	}
-
+	
 	getVoteResults(votes);
 	displayVoteResults(votes);
 	displayStateWinners(votes, stateResults);
@@ -82,9 +82,9 @@ void displayVoteResults(int **votes)
 	}
 }//displayVoteResults()
 
- /*
- Output table to file
- */
+/*
+Output table to file
+*/
 void outputToFile(int **votes)
 {
 	FILE* fileOutVotes;
