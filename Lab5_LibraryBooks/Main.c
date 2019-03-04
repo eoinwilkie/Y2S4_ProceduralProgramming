@@ -13,7 +13,7 @@ typedef struct
 void displayLibraryBooks(libraryBook_t *libraryBooks, int noOfBooks);
 void add_book(libraryBook_t *libraryBooks, int noOfBooks);
 void display_book(libraryBook_t *libraryBooks, int noOfBooks, int searchISBN);
-void displayMenu(libraryBook_t *libraryBooks);
+void displayMenu(libraryBook_t *libraryBooks, int noOfBooks);
 void edit_book(libraryBook_t *libraryBooks, int noOfBooks, int searchISBN);
 
 void main() {
@@ -30,8 +30,11 @@ void main() {
 		(libraryBooks + i)->ID = 0;
 	printf("\nLibrary books created.\n");
 
+
 	//Menu - runs until -1
 	displayMenu(libraryBooks, noOfBooks);
+
+	free(libraryBooks);
 }
 
 void displayLibraryBooks(libraryBook_t *libraryBooks, int noOfBooks) {
