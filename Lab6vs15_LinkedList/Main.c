@@ -1,115 +1,227 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include<stdio.h>
+#include<stdlib.h>
 
-typedef struct node {
-	int data;
-	struct node* next;
-}node;
+struct node {
+	int value;
+	struct node* NEXT;
+};
 
-//Add an element to the end of the list.
-void add(struct node *head);
-//Add an element to the top of the list.
-void addStart(struct node** head);
-//Display the contents of the list.
-void display(struct node *head);
-//Delete an element from the list.
-//void remove();
-//Display the length of the list.
-//void size();
-//Search the list for a user specified integer.
-void search(struct node *head, int search);
-/*new element*/
-void initList(struct node *head);
+void AddElementAtStart(struct node** top);
+void AddElementAtEnd(struct node* top);
+void DisplayList(struct node* top);
+void DeleteElementAtStart(struct node** top);
+void DeleteElementAtEnd(struct node* top);
+int Listlength(struct node* top);
+void AddElementAtPos(struct node* top, int position);
+void DeleteElementAtPos(struct node* top, int position);
+void main()
+{
+	struct node* headPtr = NULL;
+	int choice;
+	int position;
 
+	printf("Please enter 1 to add a node at the start\n2 to add a node at the end of the list\n3 to display the list\n");
+	printf("Please enter 4 to delete a node from the start\nPlease enter 5 to delete a node from the end\n");
+	printf("Please enter 6 to add a position\nPlease enter 7 to delete at a position\n - 1 to exit\n");
+	scanf("%d", &choice);
 
-void main() {
-
-	struct node *head;
-	head = (struct node*)malloc(sizeof(struct node));
-
-	//tests
-	initList(head);
-	add(head);
-	add(head);
-	add(head);
-	add(head);
-	display(head);
-	search(head, 7);
-	/*
-	search(head, 1);
-	remove(head, 1);
-	add(head, 1);
-	search(head, 1);
-	size();
-	display(head);
-	remove(head, 1);
-	size();
-	*/
-}
-
-
-//Add an element to the end of the list.
-void add(struct node *head) {
-	int data;
-	struct node *temp;
-	temp = (struct node*)malloc(sizeof(struct node));
-	temp = head;
-	while (temp->next != NULL){
-		temp = temp->next;
-	}
-	struct node *newNode;
-	newNode= (struct node*)malloc(sizeof(struct node));
-	printf("\nEnterdata for this node");
-	scanf("%d", &newNode->data);
-	newNode->next = NULL;
-	temp->next = newNode;    
-}//add()
-
-//Add an element to the top of the list.
-void addStart(struct node **head) {
-	struct node *newNode;
-	newNode = (struct node*)malloc(sizeof(struct node));
-	printf("\nEnterdata for this node");
-	scanf("%d", &newNode->data);
-	newNode->next = *head;
-	*head = newNode; // transfer the address of newNode' to 'head
-}//*/
-//Display the contents of the list.
-void display(struct node *head) {
-	struct node *temp;
-	temp = (struct node*)malloc(sizeof(struct node));
-	temp = head;
-	while (temp != NULL) {
-		printf("Data: %d", temp->data);
-		temp = temp->next;
-	}
-}
-/*/Delete an element from the list.
-void remove(){
-
-}//*/
-/*/Display the length of the list.
-void size() {
-
-}//*/
-//Search the list for a user specified integer.
-void search(struct node *head, int search) {
-	struct node *temp;
-	temp = (struct node*)malloc(sizeof(struct node));
-	temp = head;
-	while (temp != NULL) {
-		if (temp->data == search){
-			printf("\nDataFound.");
-			return;
+	while (choice != -1)
+	{
+		if (choice == 1)
+		{
+			printf("Adding element at the start\n");
+			AddElementAtStart(&headPtr);
 		}
-		temp = temp->next;
-	}
-	printf("\nDatanot found");
-}//*/
+		else if (choice == 2)
+		{
+			printf("Adding element at the end\n");
+			if (headPtr == NULL)
+				AddElementAtStart(&headPtr);
+			else
+			{
+				AddElementAtEnd(headPtr);
+			}
+		}
+		else if (choice == 3)
+		{
+			printf("Display the list\n");
+			DisplayList(headPtr);
+		}
 
-void initList(struct node *head) {
-	printf("\nEnterdata for this node");
-	scanf("%d", &head->data);
-	head->next = NULL;
+		else if (choice == 4)
+		{
+			DeleteElementAtStart(&headPtr);
+		}
+
+		else if (choice == 5)
+		{
+			if (Listlength(headPtr) == 1)
+				DeleteElementAtStart(&headPtr);
+			else
+			{
+				DeleteElementAtEnd(headPtr);
+			}
+		}
+
+		else if (choice == 6)
+		{
+			printf("Please enter the position\n");
+			scanf("%d", &position);
+
+			if (position < 1 || position>Listlength(headPtr))
+				printf("You need to enter a number between 1 and %d\n", Listlength(headPtr));
+			else if (position == 1)
+				AddElementAtStart(&headPtr);
+			else
+				AddElementAtPos(headPtr, position);
+
+		}
+
+		else if (choice == 7)
+		{
+			printf("Please enter the position\n");
+			scanf("%d", &position);
+
+			if (position < 1 || position>Listlength(headPtr))
+				printf("You need to enter a number between 1 and %d\n", Listlength(headPtr));
+			else if (position == 1)
+				DeleteElementAtStart(&headPtr);
+			else
+				DeleteElementAtPos(headPtr, position);
+
+		}
+		printf("Please enter 1 to add a node at the start\n2 to add a node at the end of the list\n3 to display the list\n");
+		printf("Please enter 4 to delete a node from the start\nPlease enter 5 to delete a node from the end\n");
+		printf("Please enter 6 to add a position\nPlease enter 7 to delete at a position\n - 1 to exit\n");
+		scanf("%d", &choice);
+	}
+}
+
+
+void AddElementAtStart(struct node** top)
+{
+	struct node* newNode;
+
+	newNode = (struct node*)malloc(sizeof(struct node));
+	printf("Please enter value of the node\n");
+	scanf("%d", &newNode->value);
+
+	newNode->NEXT = *top;
+	*top = newNode;
+}
+
+
+void DisplayList(struct node* top)
+{
+	struct node* temp = top;
+	while (temp != NULL)
+	{
+		printf("The values of the node is %d\n", temp->value);
+		temp = temp->NEXT;
+	}
+}
+
+void AddElementAtEnd(struct node* top)
+{
+	struct node* temp = top;
+	struct node* newNode;
+
+	while (temp->NEXT != NULL)
+	{
+		temp = temp->NEXT;
+	}
+
+	newNode = (struct node*)malloc(sizeof(struct node));
+
+	printf("Enter the value\n");
+	scanf("%d", &newNode->value);
+
+	newNode->NEXT = NULL;
+	temp->NEXT = newNode;
+}
+
+void DeleteElementAtStart(struct node** top)
+{
+	struct node* temp;
+
+	temp = *top;
+
+	*top = temp->NEXT;
+
+	free(temp);
+}
+void DeleteElementAtEnd(struct node* top)
+{
+	struct node* temp;
+	struct node* prev_temp;
+
+	temp = top;
+
+	while (temp->NEXT != NULL)
+	{
+		prev_temp = temp;
+		temp = temp->NEXT;
+	}
+
+	prev_temp->NEXT = NULL;
+	free(temp);
+}
+
+int Listlength(struct node* top)
+{
+	struct node* temp;
+	int count = 0;
+	temp = top;
+
+	while (temp != NULL)
+	{
+		count++;
+		temp = temp->NEXT;
+	}
+
+	return count;
+}
+
+void AddElementAtPos(struct node* top, int position)
+{
+	int i;
+	struct node* temp;
+	struct node* prev_temp;
+	struct node* newNode;
+
+	temp = top;
+
+	for (i = 0;i < position - 1;i++)
+	{
+		prev_temp = temp;
+		temp = temp->NEXT;
+	}
+
+	newNode = (struct node*)malloc(sizeof(struct node));
+	printf("Please enter the value of the node\n");
+	scanf("%d", &newNode->value);
+
+	newNode->NEXT = temp;
+	prev_temp->NEXT = newNode;
+}
+
+
+void DeleteElementAtPos(struct node* top, int position)
+{
+	int i;
+	struct node* temp;
+	struct node* prev_temp;
+
+	temp = top;
+
+	for (i = 0;i < position - 1;i++)
+	{
+		prev_temp = temp;
+		temp = temp->NEXT;
+	}
+
+
+	prev_temp->NEXT = temp->NEXT;
+	free(temp);
 
 }
