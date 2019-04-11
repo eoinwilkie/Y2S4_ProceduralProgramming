@@ -21,7 +21,9 @@ void main() {
 	struct node* tailPtr = NULL;
 	int userSelection, insertLocation;
 
-	//menu
+	/**
+		=====[ MENU ]=====
+	 */
 	do {
 		printf("====[ MENU ]====\n\t1. Add node start\n\t2. Add node end\n\t3. Display list\n\t4. Display list reverse");
 		printf("\n\t5. Del element at start\n\t6. Del element at end\n\t7. Insert at position");
@@ -57,9 +59,7 @@ void main() {
 			insertElementAt(&headPtr, &tailPtr, insertLocation);
 			break;
 		}
-
 	} while (userSelection != 0);
-
 }
 
 void addElementStart(struct node** top, struct node** bottom) {
@@ -188,6 +188,7 @@ int listLength(struct node* top){
 
 void insertElementAt(struct node** top, struct node**bottom, int location) {
 	//if <= 0, insert at start. If > listLength, insert at end.
+	//restrictions on location entered are applied at the menu, must be between 1 and listLength +1 (to allow insertion at end)
 	int i = 1;
 	struct node* temp;
 	struct node* prevTemp;
